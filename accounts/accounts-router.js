@@ -18,4 +18,19 @@ router.get("/", (req, res) => {
       });
   });
 
+router.post("/", (req, res) => {
+    db("accounts").insert(req.body)
+    .then(ids => {
+        const id = ids[0];
+        db("accounts").where({ id }).first()
+        .then(account => {
+            res.status(201).json({ data: account })
+        })
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json(error)
+    })
+})
+
 module.exports = router;
