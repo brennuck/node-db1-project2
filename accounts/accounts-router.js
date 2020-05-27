@@ -33,4 +33,17 @@ router.post("/", (req, res) => {
     })
 })
 
+router.put("/:id", (req, res) => {
+    const id = req.params.id;
+    const changes = req.body;
+    db("accounts").where({ id }).update(changes)
+    .then(account => {
+        res.status(200).json(account)
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({ error: error })
+    })
+})
+
 module.exports = router;
